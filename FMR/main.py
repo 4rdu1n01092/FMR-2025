@@ -1,4 +1,4 @@
-#!/usr/bin/env pybricks-micropython
+# Importar bibliotecas necessárias do Pybricks
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -7,14 +7,33 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
-# Create your objects here.
+# Definir blocos EV3 e motores
 ev3 = EV3Brick()
-classMotor(B, positive_direction=Direction.CLOCKWISE, gears=None)
-classMotor(C, positive_direction=Direction.CLOCKWISE, gears=None)
+RodaDireita = Motor(Port.B)
+RodaEsquerda = Motor(Port.C)
+robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
+#Inicio do programa
+def Iniciar():
+    for i in range(3):
+        ev3.screen.print("Inicializando")
+        ev3.screen.clear()
+        wait(1000)
+        ev3.screen.print("Inicializando.")
+        ev3.screen.clear()
+        wait(1000)
+        ev3.screen.print("Inicializando..")
+        ev3.screen.clear()
+        wait(1000)
+        ev3.screen.print("Inicializando...")
+        ev3.screen.clear()
+        wait(1000)
+    ev3.screen.print("Pronto!")
+    Iniciando = False
+    wait(1000)
+    ev3.screen.clear() 
 
-# Write your program here.
-ev3.speaker.beep()
+#Sequencia do programa
+Iniciar()
+print("Programa sendo iniciado")
+wait(13000)
+print("Programa Iniciado com sucesso!")
