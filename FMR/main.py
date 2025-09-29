@@ -1,3 +1,4 @@
+#!/usr/bin/env pybricks-micropython
 # Importar bibliotecas necessárias do Pybricks
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
@@ -19,6 +20,7 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 #missoes 
 def limpezaRio():
     print("executando percurso e coletando lixo")
+    RodaDireita.run(300)
 #sequencia de inicializacao
 def Iniciar():
     for i in range(3):
