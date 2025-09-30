@@ -15,9 +15,18 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 #missoes 
 
 print("executando percurso e coletando lixo")
-robot.straight(240)
+robot.straight(88)
+robot.turn(75)
+robot.straight(330)
 wait(20)
-robot.turn(85)
+robot.turn(65)
 robot.straight(100)
-
+robot.turn(27)
+robot.straight(90)
+robot.turn(-25)
+robot.straight(90) 
+robot.turn(80)
+robot.straight(410)
+robot.turn(-35)
+robot.straight(40)
 
