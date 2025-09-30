@@ -20,7 +20,7 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 #missoes 
 def limpezaRio():
     print("executando percurso e coletando lixo")
-    RodaDireita.run(300)
+    RodaDireita.run(3.5)
 #sequencia de inicializacao
 def Iniciar():
     for i in range(3):
@@ -43,6 +43,7 @@ def Iniciar():
 #Sequencia do programa
 Iniciar()
 print("Programa sendo iniciado")
+
 wait(13000)
 print("Programa Iniciado com sucesso!")
 print("Limpando rio...")
