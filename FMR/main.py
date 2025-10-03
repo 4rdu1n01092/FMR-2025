@@ -46,8 +46,3 @@ print("Programa sendo iniciado")
 
 wait(13000)
 print("Programa Iniciado com sucesso!")
-print("Limpando rio...")
-limpezaRio()
-wait(50000)
-print("Limpeza concluida ✔️")
-wait(5)
