@@ -15,7 +15,9 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 #missoes 
 def IniciarLimp():
     print("executando percurso e coletando lixo")
-    robot.turn(90)
+    
+    Stop
+
     
 
 while True:

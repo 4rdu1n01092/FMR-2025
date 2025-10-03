@@ -7,8 +7,7 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
-from pegarFrutas import Pegar
-from limpeza import IniciarLimp
+
 # Definir blocos EV3 e motores
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
@@ -25,7 +24,7 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     #Definir Valores para calculo de erro
-    kp = 2.0
+    kp = 1.9
     velo_base = 200
     #calculos
     reflexãoEsq = SenseCorE.reflection()
@@ -39,13 +38,23 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
         Nbifurcaçoes += 1
         print(Nbifurcaçoes)
         ja_conte_bifurcacao = True
-        RodaDireita.run_time(500, 200, wait=False) and RodaEsquerda.run_time(500, 200, wait=True) 
+        RodaDireita.run_time(500, 200, wait=False) 
+        RodaEsquerda.run_time(500, 200, wait=True) 
     elif reflexãoEsq >= 60 and reflexãoDir >= 60 and ja_conte_bifurcacao:
         ja_conte_bifurcacao = False
 #Sequencia do programa
 while True:    
     seguefaixapreta()
     if Nbifurcaçoes == 5:
+        robot.straight(60)
+        robot.turn(87)
+        robot.stop()
+        cronometro = StopWatch()
+        cronometro.reset() 
+        while cronometro.time() < 3000:
+            seguefaixapreta()
+    
+        
         RodaDireita.stop() 
         RodaEsquerda.stop()
         break
