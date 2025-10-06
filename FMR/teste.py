@@ -12,6 +12,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
+MotorGarra = Motor(Port.D)
 SenseCorD = ColorSensor(Port.S1)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
@@ -23,8 +24,8 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     #Definir Valores para calculo de erro
-    kp = 1.9
-    velo_base = 200
+    kp = 2
+    velo_base = 150
     #calculos
     reflexãoEsq = SenseCorE.reflection()
     reflexãoDir = SenseCorD.reflection()
@@ -36,6 +37,8 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     if reflexãoEsq <= 50 and reflexãoDir <= 50 and not ja_conte_bifurcacao:
         Nbifurcaçoes += 1
         print(Nbifurcaçoes)
+        print("REFLEXÃO SENSOR DA DIREITA =", reflexãoDir)
+        print("REFLEXÃO SENSOR DA ESQUERDA =", reflexãoEsq)
         ja_conte_bifurcacao = True
         RodaDireita.run_time(500, 200, wait=False) 
         RodaEsquerda.run_time(500, 200, wait=True) 
