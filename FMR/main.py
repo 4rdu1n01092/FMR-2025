@@ -12,10 +12,16 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
-MotorGarra = Motor(Port.D)
+MotorGarraBaixo = Motor(Port.D)
+MotorGarraAlta = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S1)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
+estounopontodepartida = True
+if estounopontodepartida == True:
+    RodaEsquerda.run(1000)
+    RodaDireita.run(1000)
+    estounopontodepartida = False
 #variaveis
 Nbifurcaçoes = 0
 ja_conte_bifurcacao = False
@@ -24,7 +30,7 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     #Definir Valores para calculo de erro
-    kp = 1.9
+    kp = 3
     velo_base = 200
     #calculos
     reflexãoEsq = SenseCorE.reflection()
@@ -34,28 +40,33 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     RodaDireita.run(velo_base-correçao)
     RodaEsquerda.run(velo_base+correçao)
     #detectar Birfuca
-    if reflexãoEsq <= 50 and reflexãoDir <= 50 and not ja_conte_bifurcacao:
-        Nbifurcaçoes += 1
-        print(Nbifurcaçoes)
-        ja_conte_bifurcacao = True
-        RodaDireita.run_time(500, 200, wait=False) 
-        RodaEsquerda.run_time(500, 200, wait=True) 
-    elif reflexãoEsq >= 60 and reflexãoDir >= 60 and ja_conte_bifurcacao:
-        ja_conte_bifurcacao = False
+    if estounopontodepartida == False:
+        if reflexãoEsq <= 50 and reflexãoDir <= 50 and not ja_conte_bifurcacao:
+            Nbifurcaçoes += 1
+            print(Nbifurcaçoes)
+            ja_conte_bifurcacao = True
+            RodaDireita.run_time(500, 200, wait=False) 
+            RodaEsquerda.run_time(500, 200, wait=True) 
+        elif reflexãoEsq >= 70 and reflexãoDir >= 70 and ja_conte_bifurcacao:
+            ja_conte_bifurcacao = False
+
 #Sequencia do programa
-while True:    
+MotorGarraBaixo.run_until_stalled(-100, then=Stop.BRAKE, duty_limit=None)
+
+while True:   
+
+
     seguefaixapreta()
     if Nbifurcaçoes == 5:
         robot.straight(60)
-        robot.turn(87)
+        robot.turn(120)
         robot.stop()
         cronometro = StopWatch()
         cronometro.reset() 
-        while cronometro.time() < 3000:
+        while cronometro.time() < 1000:
             seguefaixapreta()
-    
-        
         RodaDireita.stop() 
         RodaEsquerda.stop()
         break
+
 Stop

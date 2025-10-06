@@ -7,22 +7,27 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
-#Definir blocos EV3 e motores
+
+# Definir blocos EV3 e motores
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
+MotorGarraBaixo = Motor(Port.D)
+MotorGarraAlta = Motor(Port.A)
+SenseCorD = ColorSensor(Port.S1)
+SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 #missoes 
-def IniciarLimp():
-    print("executando percurso e coletando lixo")
+
     
-    Stop
+
 
     
 
 while True:
-    IniciarLimp()
-    break
+    print("executando percurso e coletando lixo")
+    MotorGarraBaixo.run_until_stalled(100, then=Stop.COAST, duty_limit=None)
+    
 Stop
 
 

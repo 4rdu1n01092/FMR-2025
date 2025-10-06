@@ -12,9 +12,11 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
-MotorGarra = Motor(Port.D)
+MotorGarraBaixo = Motor(Port.D)
+MotorGarraAlta = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S1)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
 while True:
+    MotorGarraAlta.run(30)
