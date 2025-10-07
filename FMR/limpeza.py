@@ -25,8 +25,7 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
     
 
 while True:
-    print("executando percurso e coletando lixo")
-    MotorGarraBaixo.run_until_stalled(100, then=Stop.COAST, duty_limit=None)
+    robot.turn(45)
     
 Stop
 

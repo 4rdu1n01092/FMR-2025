@@ -12,9 +12,13 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
-SenseCorD = ColorSensor(Port.S1)
+CataTampa = Motor(Port.D)
+MotorGarraAlta = Motor(Port.A)
+SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
+SensorCorVermelhoCima = ColorSensor(Port.S1)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
+
 #variaveis
 Nbifurcaçoes = 0
 ja_conte_bifurcacao = False
@@ -23,7 +27,7 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     #Definir Valores para calculo de erro
-    kp = 1.9
+    kp = 2
     velo_base = 200
     #calculos
     reflexãoEsq = SenseCorE.reflection()
@@ -33,7 +37,7 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     RodaDireita.run(velo_base-correçao)
     RodaEsquerda.run(velo_base+correçao)
     #detectar Birfuca
-    if reflexãoEsq <= 50 and reflexãoDir <= 50 and not ja_conte_bifurcacao:
+    if reflexãoEsq <= 49 and reflexãoDir <= 49 and not ja_conte_bifurcacao:
         Nbifurcaçoes += 1
         print(Nbifurcaçoes)
         ja_conte_bifurcacao = True
@@ -42,6 +46,18 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
     elif reflexãoEsq >= 60 and reflexãoDir >= 60 and ja_conte_bifurcacao:
         ja_conte_bifurcacao = False
 #Sequencia do programa
+RodaDireita.run(50)
+RodaEsquerda.run(200)
+wait(500)
+RodaDireita.stop
+RodaEsquerda.stop
+RodaDireita.run(200)
+RodaEsquerda.run(200)
+wait(1000)
+RodaDireita.stop
+RodaEsquerda.stop
+Nbifurcaçoes =- 1
+CataTampa.run_until_stalled(-2000, then=Stop.COAST, duty_limit=None)
 while True:    
     seguefaixapreta()
     if Nbifurcaçoes == 5:
@@ -52,8 +68,6 @@ while True:
         cronometro.reset() 
         while cronometro.time() < 3000:
             seguefaixapreta()
-    
-        
         RodaDireita.stop() 
         RodaEsquerda.stop()
         break
