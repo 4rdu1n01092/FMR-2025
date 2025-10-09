@@ -18,17 +18,66 @@ SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
 SensorCorVermelhoCima = ColorSensor(Port.S1)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
-
+#missoes
+def limpezario():
+    RodaDireita.run(200)
+    RodaEsquerda.run(400)
+    wait(500)
+    RodaDireita.stop
+    RodaEsquerda.stop
+    RodaDireita.run(200)
+    RodaEsquerda.run(200)
+    wait(1000)
+    RodaDireita.stop
+    RodaEsquerda.stop
+    while True:
+        robot.turn(50)
+        robot.turn(42)
+        wait(200)
+        robot.stop()
+        RodaDireita.run(200)
+        RodaEsquerda.run(200)
+        wait(3000)
+        RodaDireita.stop
+        RodaEsquerda.stop
+        wait(200)
+        robot.turn(50)
+        robot.turn(48)
+        wait(200)
+        robot.stop()
+        RodaDireita.run(200)
+        RodaEsquerda.run(200)
+        wait(7000)
+        RodaDireita.stop
+        RodaEsquerda.stop
+        wait(200)
+        robot.turn(-65)
+        wait(200)
+        robot.stop()
+        RodaDireita.run(200)
+        RodaEsquerda.run(200)
+        wait(3000)
+        RodaDireita.stop
+        RodaEsquerda.stop
+        wait(200)
+        robot.turn(-10)
+        wait(200)
+        robot.stop()
+        RodaDireita.run(200)
+        RodaEsquerda.run(200)
+        wait(2500)
+        RodaDireita.stop
+        RodaEsquerda.stop
 #variaveis
-Nbifurcaçoes = 0
+Nbifurcaçoes = -1
 ja_conte_bifurcacao = False
 def seguefaixapreta(): #nome autoexplicatico (segue linha)
     #importar variaveis globais
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     #Definir Valores para calculo de erro
-    kp = 2
-    velo_base = 200
+    kp = 3.5
+    velo_base = 180
     #calculos
     reflexãoEsq = SenseCorE.reflection()
     reflexãoDir = SenseCorD.reflection()
@@ -43,11 +92,11 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
         ja_conte_bifurcacao = True
         RodaDireita.run_time(500, 200, wait=False) 
         RodaEsquerda.run_time(500, 200, wait=True) 
-    elif reflexãoEsq >= 60 and reflexãoDir >= 60 and ja_conte_bifurcacao:
+    elif reflexãoEsq >= 50 and reflexãoDir >= 50 and ja_conte_bifurcacao:
         ja_conte_bifurcacao = False
 #Sequencia do programa
-RodaDireita.run(50)
-RodaEsquerda.run(200)
+RodaDireita.run(200)
+RodaEsquerda.run(400)
 wait(500)
 RodaDireita.stop
 RodaEsquerda.stop
@@ -56,8 +105,6 @@ RodaEsquerda.run(200)
 wait(1000)
 RodaDireita.stop
 RodaEsquerda.stop
-Nbifurcaçoes =- 1
-CataTampa.run_until_stalled(-2000, then=Stop.COAST, duty_limit=None)
 while True:    
     seguefaixapreta()
     if Nbifurcaçoes == 5:
@@ -70,5 +117,6 @@ while True:
             seguefaixapreta()
         RodaDireita.stop() 
         RodaEsquerda.stop()
+        CataTampa.run_until_stalled(-2000, then=Stop.COAST, duty_limit=None)
         break
 Stop
