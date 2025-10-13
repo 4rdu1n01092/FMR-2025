@@ -21,18 +21,14 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
 RodaDireita.run(200)
 RodaEsquerda.run(200)
-wait(500)
-RodaDireita.stop
-RodaEsquerda.stop
-RodaDireita.run(200)
-RodaEsquerda.run(200)
-wait(1000)
+wait(800)
 RodaDireita.stop
 RodaEsquerda.stop
 
 while True:
-    robot.turn(60)
+    #PRIMEIRA VOLTA
     robot.turn(55)
+    robot.turn(27)
     wait(200)
     robot.stop()
     RodaDireita.run(200)
@@ -41,17 +37,19 @@ while True:
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    robot.turn(50)
-    robot.turn(58)
+    #PRIMEIRA TAMPINHA RIO BAIXO
+    robot.turn(46)
+    robot.turn(60)
     wait(200)
     robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(6000)
+    wait(6500)
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    robot.turn(-78)
+    #2 TAMPINHAS SEGUIDAS 
+    robot.turn(-90)
     wait(200)
     robot.stop()
     RodaDireita.run(200)
@@ -60,17 +58,31 @@ while True:
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    robot.turn(-50)
+    RodaDireita.run(200)
+    RodaEsquerda.run(200)
+    wait(2000)
+    RodaDireita.stop
+    RodaEsquerda.stop
+    wait(200)
+    #ULTIMAS TAMPINHAS
+    robot.turn(37)
     wait(200)
     robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(2500)
+    wait(1500)
+    RodaEsquerda.stop
+    RodaEsquerda.stop
+    wait(200)
+    #VOLTA PARA A ESTRADA
+    robot.turn(-52)
+    wait(400)
+    robot.stop()
+    robot.turn(20)
+    RodaDireita.run(200)
+    RodaEsquerda.run(200)
+    wait(1500)
     RodaDireita.stop
     RodaEsquerda.stop
-
-
-
-
-
-
+    break
+Stop

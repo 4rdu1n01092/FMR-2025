@@ -15,12 +15,8 @@ RodaEsquerda = Motor(Port.C)
 MotorGarraCima = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S1)
 SenseCorE = ColorSensor(Port.S4)
+CataTampa = Motor(Port.D)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
-
+ev3_img = ImageFile("image.png")
 while True:
-    MotorGarraCima.run(-1000)
-    MotorGarraCima.hold
-    wait(3500)
-    MotorGarraCima.run(1000)
-    wait(3500)
-    MotorGarraCima.hold
+    
