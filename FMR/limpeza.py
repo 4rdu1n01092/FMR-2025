@@ -21,7 +21,7 @@ robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
 RodaDireita.run(200)
 RodaEsquerda.run(200)
-wait(800)
+wait(700)
 RodaDireita.stop
 RodaEsquerda.stop
 
@@ -31,32 +31,38 @@ while True:
     robot.turn(27)
     wait(200)
     robot.stop()
+    Print("curva a direita")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(3000)
-    RodaDireita.stop
-    RodaEsquerda.stop
+    RodaDireita.stop()
+    RodaEsquerda.stop()
     wait(200)
+    Print("andei reto")
     #PRIMEIRA TAMPINHA RIO BAIXO
     robot.turn(46)
     robot.turn(60)
     wait(200)
     robot.stop()
+    Print("3 tampa")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(6500)
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    #2 TAMPINHAS SEGUIDAS 
+    Print("andei mais pra frente")
+    #2 TAMPINHAS SEGUIDAS
     robot.turn(-90)
     wait(200)
     robot.stop()
+    Print("virei 90 graus")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(3000)
     RodaDireita.stop
     RodaEsquerda.stop
+    Print("mais pra frente dnv")
     wait(200)
     RodaDireita.run(200)
     RodaEsquerda.run(200)
@@ -64,25 +70,31 @@ while True:
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
+    Print("adivinha? mais frente")
     #ULTIMAS TAMPINHAS
     robot.turn(37)
     wait(200)
     robot.stop()
+    Print("virei 37 graus")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1500)
     RodaEsquerda.stop
     RodaEsquerda.stop
     wait(200)
+    Print("mais frente")
     #VOLTA PARA A ESTRADA
     robot.turn(-52)
     wait(400)
     robot.stop()
+    Print("girada -52 graus")
     robot.turn(20)
+    Print("girada 20 graus")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1500)
     RodaDireita.stop
     RodaEsquerda.stop
+    Print("ultima andada pa frente")
     break
 Stop

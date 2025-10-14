@@ -16,12 +16,12 @@ CataTampa = Motor(Port.D)
 MotorGarraAlta = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
-SensorCorVermelhoCima = ColorSensor(Port.S1)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
-#missoes
 #variaveis
 Nbifurcaçoes = 0
 ja_conte_bifurcacao = False
+VALOR_PRETO = 5
+VALOR_BRANCO = 95
 def seguefaixapreta(): #nome autoexplicatico (segue linha)
     #importar variaveis globais
     global Nbifurcaçoes
@@ -47,18 +47,18 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
         ja_conte_bifurcacao = False
 #Sequencia do programa
 robot.straight(280)
-robot.turn(-85)
+robot.turn(-76)
 robot.stop()
 while True:
     seguefaixapreta()
-    if Nbifurcaçoes == 4:
-        robot.turn(-20)
-        robot.straight(604)
-        robot.straight(80)
-        robot.turn(97)
+    if Nbifurcaçoes == 5:
+        robot.straight(300)
+        robot.turn(90)
+        seguefaixapreta()
+        wait(4000)
         robot.straight(200)
         wait(100)
         CataTampa.run_until_stalled(-200, then=Stop.COAST)
-        print("TO PARANDOSEUS PORRA")
-        break
-Stop
+        print("Iniciando missão...")
+        wait(800)
+        
