@@ -17,18 +17,21 @@ MotorGarraAlta = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
+giroscopio = GyroSensor(Port.S2)
 #variaveis
 Nbifurcaçoes = 0
 ja_conte_bifurcacao = False
 VALOR_PRETO = 5
 VALOR_BRANCO = 95
+#Definir Valores para calculo de erro
+kp = 3
+velo_base = 180
 def seguefaixapreta(): #nome autoexplicatico (segue linha)
     #importar variaveis globais
     global Nbifurcaçoes
     global ja_conte_bifurcacao
-    #Definir Valores para calculo de erro
-    kp = 3.1
-    velo_base = 180
+    global kp
+    global velo_base
     #calculos
     reflexãoEsq = SenseCorE.reflection()
     reflexãoDir = SenseCorD.reflection()
@@ -52,12 +55,14 @@ robot.stop()
 while True:
     seguefaixapreta()
     if Nbifurcaçoes == 5:
-        robot.straight(300)
-        robot.turn(90)
-        seguefaixapreta()
-        wait(4000)
+        robot.turn(-82 - giroscopio.angle()) 
+        RodaDireita.stop()
+        RodaEsquerda.stop()
+
+        
+        robot.straight(70)
+        robot.turn(95)
         robot.straight(200)
-        wait(100)
         CataTampa.run_until_stalled(-200, then=Stop.COAST)
         print("Iniciando missão...")
         wait(800)

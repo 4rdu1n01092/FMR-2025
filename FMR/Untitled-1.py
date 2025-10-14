@@ -47,7 +47,7 @@ while True:
         wait(500)
 
         #virar na 5ª bifurcação
-        if bifurcaçoes == bifurcaçao_alvo:
+        if bifurcaçoes == 5:
             #Virar à direita
             RodaEsquerda.run_angle(200, 360, Stop.BRAKE, False)
             RodaDireita.run_angle(200, -360, Stop.BRAKE, True)

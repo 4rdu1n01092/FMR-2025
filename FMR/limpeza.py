@@ -28,41 +28,36 @@ RodaEsquerda.stop
 while True:
     #PRIMEIRA VOLTA
     robot.turn(55)
-    robot.turn(27)
+    robot.turn(40)
     wait(200)
     robot.stop()
-    Print("curva a direita")
-    RodaDireita.run(200)
-    RodaEsquerda.run(200)
+    RodaDireita.run(170)
+    RodaEsquerda.run(170)
     wait(3000)
     RodaDireita.stop()
     RodaEsquerda.stop()
     wait(200)
-    Print("andei reto")
     #PRIMEIRA TAMPINHA RIO BAIXO
-    robot.turn(46)
-    robot.turn(60)
+    robot.turn(55)
+    robot.turn(50)
     wait(200)
     robot.stop()
-    Print("3 tampa")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(6500)
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    Print("andei mais pra frente")
+
     #2 TAMPINHAS SEGUIDAS
-    robot.turn(-90)
+    robot.turn(-85)
     wait(200)
     robot.stop()
-    Print("virei 90 graus")
-    RodaDireita.run(200)
-    RodaEsquerda.run(200)
+    RodaDireita.run(220)
+    RodaEsquerda.run(220)
     wait(3000)
     RodaDireita.stop
     RodaEsquerda.stop
-    Print("mais pra frente dnv")
     wait(200)
     RodaDireita.run(200)
     RodaEsquerda.run(200)
@@ -70,31 +65,25 @@ while True:
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
-    Print("adivinha? mais frente")
     #ULTIMAS TAMPINHAS
-    robot.turn(37)
+    robot.turn(35)
     wait(200)
     robot.stop()
-    Print("virei 37 graus")
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1500)
     RodaEsquerda.stop
     RodaEsquerda.stop
     wait(200)
-    Print("mais frente")
     #VOLTA PARA A ESTRADA
-    robot.turn(-52)
+    robot.turn(-32)
     wait(400)
     robot.stop()
-    Print("girada -52 graus")
-    robot.turn(20)
-    Print("girada 20 graus")
+    robot.turn(0)
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1500)
     RodaDireita.stop
     RodaEsquerda.stop
-    Print("ultima andada pa frente")
     break
 Stop
