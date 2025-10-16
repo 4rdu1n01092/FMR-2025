@@ -55,11 +55,8 @@ robot.stop()
 while True:
     seguefaixapreta()
     if Nbifurcaçoes == 5:
-        robot.turn(-82 - giroscopio.angle()) 
-        RodaDireita.stop()
-        RodaEsquerda.stop()
-
-        
+        while giroscopio.angle() != -82:
+            robot.turn(-1)  
         robot.straight(70)
         robot.turn(95)
         robot.straight(200)

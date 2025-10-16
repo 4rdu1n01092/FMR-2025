@@ -12,11 +12,12 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
-MotorGarraBaixo = Motor(Port.D)
+CataTampa = Motor(Port.D)
 MotorGarraAlta = Motor(Port.A)
-SenseCorD = ColorSensor(Port.S1)
+SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
+giroscopio = GyroSensor(Port.S2)
 #missoes 
 
 RodaDireita.run(200)
@@ -27,8 +28,8 @@ RodaEsquerda.stop
 
 while True:
     #PRIMEIRA VOLTA
-    robot.turn(55)
-    robot.turn(40)
+    robot.turn(50)
+    robot.turn(38)
     wait(200)
     robot.stop()
     RodaDireita.run(170)
@@ -38,8 +39,8 @@ while True:
     RodaEsquerda.stop()
     wait(200)
     #PRIMEIRA TAMPINHA RIO BAIXO
-    robot.turn(55)
     robot.turn(50)
+    robot.turn(45)
     wait(200)
     robot.stop()
     RodaDireita.run(200)
@@ -55,13 +56,13 @@ while True:
     robot.stop()
     RodaDireita.run(220)
     RodaEsquerda.run(220)
-    wait(3000)
+    wait(3500)
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(2000)
+    wait(1750)
     RodaDireita.stop
     RodaEsquerda.stop
     wait(200)
@@ -71,19 +72,22 @@ while True:
     robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(1500)
+    wait(1700)
     RodaEsquerda.stop
     RodaEsquerda.stop
     wait(200)
     #VOLTA PARA A ESTRADA
-    robot.turn(-32)
+    robot.turn(-34)
     wait(400)
     robot.stop()
     robot.turn(0)
+    robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1500)
     RodaDireita.stop
     RodaEsquerda.stop
     break
+RodaDireita.stop(Stop.BRAKE)
+RodaEsquerda.stop(Stop.BRAKE)
 Stop
