@@ -51,26 +51,26 @@ def seguefaixapreta(): #nome autoexplicatico (segue linha)
 #Sequencia do programa
 giroscopio.reset_angle(0)
 robot.straight(280)
+Stop.HOLD
 robot.turn(-76)
+Stop.HOLD
 robot.stop()
+robot.reset()
 while True:
-    robot.reset()
     seguefaixapreta()
     if Nbifurcaçoes == 5:
-        while giroscopio.angle() != -82:
-            if giroscopio.angle() > -82:
-                robot.turn(-1)
-            elif giroscopio.angle() < -82:
-                robot.turn(1)
+        giro_atual = giroscopio.angle()
+        angulo_alvo1 = -89
+        angulo_alvo2 = 20
+        robot.turn(angulo_alvo1 - giro_atual)
         robot.straight(70)
-        robot.turn(90)
-        robot.straight(1950)
+        Stop.HOLD
+        robot.turn(89)
+        Stop.HOLD
+        robot.straight(195)
+        Stop.HOLD
         print(giroscopio.angle())
-        while giroscopio.angle() != 23:
-            if giroscopio.angle() > 23:
-                robot.turn(-1)
-            elif giroscopio.angle() < 23:
-                robot.turn(1)
+        robot.turn(angulo_alvo2 - giro_atual)
         CataTampa.run_until_stalled(-200, then=Stop.COAST)
         print("Iniciando missão...")
         wait(800)
