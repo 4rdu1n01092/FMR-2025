@@ -72,7 +72,7 @@ while True:
     robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(1700)
+    wait(1600)
     RodaEsquerda.stop
     RodaEsquerda.stop
     wait(200)
@@ -84,7 +84,7 @@ while True:
     robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
-    wait(1500)
+    wait(1800)
     RodaDireita.stop
     RodaEsquerda.stop
     break

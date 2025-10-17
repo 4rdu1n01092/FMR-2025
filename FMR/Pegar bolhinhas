@@ -26,14 +26,14 @@ while True:
     cor_detectada = SensorCorVermelhoCima.color()
 
     #Se detectar vermelho e a pá estiver levantada --> abaixar
-    if cor_detectada == Color.RED and not pa_abaixada: 
-        ev3.speaker.say("Vermelho detectado")
-        ev3.screen.print("Vermelho detectado")
+    if cor_detectada == Color.YELLOW and not pa_abaixada: 
+        ev3.speaker.say("Amarelo detectado")
+        ev3.screen.print("Amarelo detectado")
         MotorGarraAlta.run_angle(1000, -1500) #Desce a pá (ajuste o ângulo conforme o movimento)
         pa_abaixada = True
 
         #Se o vermelho sair da frente --> Levanta a pá 
-    elif cor_detectada != Color.RED and pa_abaixada:
+    elif cor_detectada != Color.YELLOW and pa_abaixada:
         ev3.speaker.say("Voltando")
         ev3.screen.print("Voltando")
         MotorGarraAlta.run_angle(1000, 1500)
