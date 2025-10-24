@@ -18,73 +18,81 @@ SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 giroscopio = GyroSensor(Port.S2)
-#variaveis
+
+# variaveis
 Nbifurcaçoes = 0
 ja_conte_bifurcacao = False
 VALOR_PRETO = 5
 VALOR_BRANCO = 95
-kp = 3
+kp = 1.8
 velo_base = 180
-#Funçoes do programa
+
+# === Funções auxiliares ===
+def girar_para(angulo_alvo):
+    """Gira o robô até o ângulo absoluto desejado com base no giroscópio."""
+    robot.turn(angulo_alvo)
+    robot.stop()
+
+def ir_para_frente(distancia):
+    """Move o robô para frente (ou trás se valor negativo) em milímetros."""
+    robot.straight(distancia)
+    robot.stop()
+
+# === Função atualizada: seguir até a missão das tampinhas ===
 def seguir_até_a_misão_de_coletar_as_tampinhas():
-    giro_atual = giroscopio.angle()
-    angulo_alvo1 = -89
-    angulo_alvo2 = 20
-    robot.turn(angulo_alvo1 - giro_atual)
-    robot.straight(70)
-    Stop.HOLD
-    robot.turn(89)
-    Stop.HOLD
-    robot.straight(195)
-    Stop.HOLD
-    print(giroscopio.angle())
-    robot.turn(angulo_alvo2 - giro_atual)
+    ir_para_frente(70)
+    girar_para(90)
+    ir_para_frente(195)
     CataTampa.run_until_stalled(-200, then=Stop.COAST)
     print("Iniciando missão...")
     wait(800)
-#Sequencia inicial do programa
+
+# Sequencia inicial do programa
 def sequencia_inicial():
     giroscopio.reset_angle(0)
     robot.straight(280)
-    Stop.HOLD
-    robot.turn(-78)
-    Stop.HOLD
     robot.stop()
+    robot.turn(-78)
+    robot.stop()
+    robot.stop()  # garantia
     robot.reset()
+
 # seguir faixa preta
-def segue_faixa_preta(): 
-    #importar variaveis globais
+def segue_faixa_preta():
     global Nbifurcaçoes
     global ja_conte_bifurcacao
     global kp
     global velo_base
-    #calculos
-    reflexãoEsq = SenseCorE.reflection()
-    reflexãoDir = SenseCorD.reflection()
-    erro = reflexãoEsq - reflexãoDir
-    correçao = kp * erro
-    RodaDireita.run(velo_base-correçao)
-    RodaEsquerda.run(velo_base+correçao)
-    #detectar Birfuca
-    if reflexãoEsq <= 50 and reflexãoDir <= 50 and not ja_conte_bifurcacao:
+    # leitura dos sensores
+    reflexaoEsq = SenseCorE.reflection()
+    reflexaoDir = SenseCorD.reflection()
+    erro = reflexaoEsq - reflexaoDir
+    correcao = kp * erro
+    # ajustar velocidade dos motores (atenção: .run espera valores em deg/s)
+    RodaDireita.run(velo_base - correcao)
+    RodaEsquerda.run(velo_base + correcao)
+    # detectar bifurcação (valores podem precisar de afinação conforme pista)
+    if reflexaoEsq <= 50 and reflexaoDir <= 50 and not ja_conte_bifurcacao:
         Nbifurcaçoes += 1
-        print(Nbifurcaçoes)
+        print("Bifurcação detectada. Total:", Nbifurcaçoes)
         ja_conte_bifurcacao = True
-        RodaDireita.run_time(500, 200, wait=False) 
-        RodaEsquerda.run_time(500, 200, wait=True) 
-    elif reflexãoEsq >= 60 and reflexãoDir >= 60 and ja_conte_bifurcacao:
+        # pequeno impulso para frente (200 ms a 500 deg/s)
+        RodaDireita.run_time(500, 200, wait=False)
+        RodaEsquerda.run_time(500, 200, wait=True)
+    elif reflexaoEsq >= 60 and reflexaoDir >= 60 and ja_conte_bifurcacao:
         ja_conte_bifurcacao = False
-#inicio missão
+
+# inicio missão
 def inicio_missão():
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(700)
-    RodaDireita.stop
-    RodaEsquerda.stop
-#PRIMEIRA VOLTA
+    RodaDireita.stop()
+    RodaEsquerda.stop()
+
+# PRIMEIRA VOLTA
 def primeira_volta():
-    robot.turn(50)
-    robot.turn(38)
+    robot.turn(70)
     wait(200)
     robot.stop()
     RodaDireita.run(170)
@@ -93,19 +101,21 @@ def primeira_volta():
     RodaDireita.stop()
     RodaEsquerda.stop()
     wait(200)
-#PRIMEIRA TAMPINHA RIO BAIXO
+
+# PRIMEIRA TAMPINHA RIO BAIXO
 def primeira_tampinha_rio_baixo():
     robot.turn(50)
     robot.turn(45)
     wait(200)
     robot.stop()
-    RodaDireita.run(200)
-    RodaEsquerda.run(200)
+    RodaDireita.run(220)
+    RodaEsquerda.run(220)
     wait(6500)
-    RodaDireita.stop
-    RodaEsquerda.stop
+    RodaDireita.stop()
+    RodaEsquerda.stop()
     wait(200)
-#2 TAMPINHAS SEGUIDAS
+
+# 2 TAMPINHAS SEGUIDAS
 def tampinha_seguidas():
     robot.turn(-85)
     wait(200)
@@ -113,16 +123,17 @@ def tampinha_seguidas():
     RodaDireita.run(220)
     RodaEsquerda.run(220)
     wait(3500)
-    RodaDireita.stop
-    RodaEsquerda.stop
+    RodaDireita.stop()
+    RodaEsquerda.stop()
     wait(200)
-    RodaDireita.run(200)
-    RodaEsquerda.run(200)
+    RodaDireita.run(250)
+    RodaEsquerda.run(250)
     wait(1750)
-    RodaDireita.stop
-    RodaEsquerda.stop
+    RodaDireita.stop()
+    RodaEsquerda.stop()
     wait(200)
-#ULTIMAS TAMPINHAS
+
+# ULTIMAS TAMPINHAS
 def ultimas_tampinhas():
     robot.turn(35)
     wait(200)
@@ -130,25 +141,26 @@ def ultimas_tampinhas():
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1600)
-    RodaEsquerda.stop
-    RodaEsquerda.stop
+    RodaDireita.stop()
+    RodaEsquerda.stop()
     wait(200)
-#VOLTA PARA A ESTRADA
+
+# VOLTA PARA A ESTRADA
 def volta_para_a_estrada_pós_missão_tampinhas():
     robot.turn(-34)
     wait(400)
     robot.stop()
-    robot.turn(0)
-    robot.stop()
     RodaDireita.run(200)
     RodaEsquerda.run(200)
     wait(1800)
-    RodaDireita.stop
-    RodaEsquerda.stop
-#parar robo
+    RodaDireita.stop()
+    RodaEsquerda.stop()
+
+# parar robo
 def parar_robo():
     RodaDireita.stop()
     RodaEsquerda.stop()
+
 # missão tampinhas
 def missão_tampinhas():
     inicio_missão()
@@ -159,7 +171,7 @@ def missão_tampinhas():
     volta_para_a_estrada_pós_missão_tampinhas()
     parar_robo()
 
-#Sequencia do programa
+# Sequencia do programa
 sequencia_inicial()
 while True:
     segue_faixa_preta()
@@ -168,3 +180,4 @@ while True:
         seguir_até_a_misão_de_coletar_as_tampinhas()
         wait(5000)
         missão_tampinhas()
+        break

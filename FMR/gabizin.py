@@ -1,14 +1,11 @@
 #!/usr/bin/env pybricks-micropython
-# Importar bibliotecas necessárias do Pybricks
 from pybricks.hubs import EV3Brick
-from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
-                                 InfraredSensor, UltrasonicSensor, GyroSensor)
-from pybricks.parameters import Port, Stop, Direction, Button, Color
-from pybricks.tools import wait, StopWatch, DataLog
+from pybricks.ev3devices import Motor, ColorSensor
+from pybricks.parameters import Port, Stop, Color
 from pybricks.robotics import DriveBase
-from pybricks.media.ev3dev import SoundFile, ImageFile
+from pybricks.tools import wait
 
-# Definir blocos EV3 e motores
+# === Inicialização ===
 ev3 = EV3Brick()
 RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
@@ -17,67 +14,74 @@ motor_garra = Motor(Port.A)
 sensor_cor = ColorSensor(Port.S2)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
-#Funções auxiliares 
-def mover_braco(angulo, velocidade=200):
-    "Move o braço (e o sensor de cor) para cima ou para baixo."
-    motor_braco.run_angle(velocidade,angulo, Stop.BRAKE, True)
+# === Configurações ===
+cores_memorizadas = []
+NUM_CORES = 3
 
+# === Funções auxiliares ===
 def ler_cor():
-    "Lê a cor atual do sensor."
+    """Lê a cor detectada pelo sensor e retorna o nome."""
     cor = sensor_cor.color()
     if cor == Color.RED:
-        return "Vermelho"
-    elif cor == Color.BLUE:
-        return "Azul"
+        print("vermelho")
     elif cor == Color.GREEN:
-        return "Verde"
+        print("verde")
+    elif cor == Color.BLUE:
+        print("azul")
     else:
-        return "desconhecido"
-    
-def abrir_guarra():
-    motor_garra.run_angle(200, 120, Stop.BRAKE, True)
+        return "indefinido"
 
-def fechar_garra():
-    motor_garra.run_angle(200, -120, Stop.BRAKE, True)
-
-ev3.speaker.say("Iniciando leitura das cores")
-cores_memorizadas = []
-
-#O braço começa em cima e desce de forma gradual lendo as 3 cores
-for i in range (3):
-    mover_braco(-200, 200) #desce um pouco
-    wait(500)
-    cor_detectada = ler_cor()
-
-    cores_memorizadas.append(cor_detectada)
-    ev3.speaker.say(cor_detectada)
-    #print(f"Cor detectada {i+1}:{cor_detectada}")
-    wait(500)
-
-#sobe o braço de volta à posição inicial
-mover_braco(600, 200)
-ev3.speaker.beep()
-print("Sequencia decorada(de baixo para cima):", cores_memorizadas)
-
-#agora o robô vai pegar as bolinhas nessa ordem
-ev3.speaker.say("Pegando as bolinhas")
-
-for cor in cores_memorizadas:
-    ev3.speaker.say(f"Pegar {cor}")
-    print(f"Pegar bolinha {cor}")
-
-    # Aqui você pode colocar lágica diferente para cada cor, se quiser
-    # Mas como as bolinhas estão juntas na caixa, ele só precisa fazer a sequência
-
-    abrir_guarra()
-    wait(300)
-    fechar_garra()
+def mostrar_cor_na_tela(cor_nome):
+    ev3.screen.clear()
+    ev3.screen.draw_text(0, 50, "Cor: " + cor_nome)
     wait(1000)
 
-    #Após pegar uma bolinha, ele pode "soltar" em outro local ou só simular a ação
-    abrir_guarra()
+def pegar_bolinha():
+    motor_braco.run_angle(200, -90, Stop.HOLD)
+    motor_garra.run_angle(200, -90, Stop.HOLD)
+    wait(500)
+    motor_braco.run_angle(200, 90, Stop.HOLD)
     wait(500)
 
-ev3.speaker.say ("Sequência completa")
-ev3.speaker.beep()
-print("Todas as bolinhas foram pegas na ordem certa")
+def soltar_bolinha():
+    motor_braco.run_angle(200, -90, Stop.HOLD)
+    motor_garra.run_angle(200, 90, Stop.HOLD)
+    wait(500)
+    motor_braco.run_angle(200, 90, Stop.HOLD)
+
+# === Etapa 1: Ler e memorizar 3 cores ===
+ev3.speaker.say("Iniciando leitura das cores")
+for i in range(NUM_CORES):
+    ev3.screen.clear()
+    ev3.screen.draw_text(0, 20, "Mostre a cor " + str(i + 1))
+    ev3.speaker.beep()
+    wait(2000)
+    
+    cor_atual = ler_cor()
+    cores_memorizadas.append(cor_atual)
+    mostrar_cor_na_tela(cor_atual)
+    ev3.speaker.say("Cor memorizada")
+
+ev3.speaker.say("Todas as cores memorizadas")
+
+# === Etapa 2: Buscar e pegar bolinhas ===
+for i in range(NUM_CORES):
+    cor_ref = cores_memorizadas[i]
+    ev3.speaker.say("Buscando " + cor_ref)
+
+    while True:
+        cor_lida = ler_cor()
+        if cor_lida == cor_ref:
+            ev3.speaker.say("Cor encontrada")
+            robot.stop()
+            pegar_bolinha()
+            break
+        else:
+            robot.drive(50, 10)
+
+    robot.straight(100)
+    soltar_bolinha()
+    robot.straight(-100)
+
+ev3.speaker.say("Tarefa concluída")
+robot.stop()
