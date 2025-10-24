@@ -14,7 +14,7 @@ RodaDireita = Motor(Port.B)
 RodaEsquerda = Motor(Port.C)
 motor_braco = Motor(Port.D)
 motor_garra = Motor(Port.A)
-sensor_cor = ColorSensor(Port.S3)
+sensor_cor = ColorSensor(Port.S2)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
 #Funções auxiliares 
@@ -51,7 +51,7 @@ for i in range (3):
 
     cores_memorizadas.append(cor_detectada)
     ev3.speaker.say(cor_detectada)
-    print(f"Cor detectada {i+1}:{cor_detectada}")
+    #print(f"Cor detectada {i+1}:{cor_detectada}")
     wait(500)
 
 #sobe o braço de volta à posição inicial

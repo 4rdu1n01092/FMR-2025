@@ -16,14 +16,14 @@ CataTampa = Motor(Port.D)
 MotorGarraAlta = Motor(Port.A)
 SenseCorD = ColorSensor(Port.S3)
 SenseCorE = ColorSensor(Port.S4)
-SensorCorVermelhoCima = ColorSensor(Port.S1)
+SensorCorAmareloBaixo = ColorSensor(Port.S1)
 robot = DriveBase(RodaEsquerda, RodaDireita, wheel_diameter=56, axle_track=114)
 
 pa_abaixada = False #Variavel para controlar o estado da pá
 ev3.speaker.say ("Iniciando detecçãode vermelho")
 
 while True:
-    cor_detectada = SensorCorVermelhoCima.color()
+    cor_detectada = SensorCorAmareloBaixo.color()
 
     #Se detectar vermelho e a pá estiver levantada --> abaixar
     if cor_detectada == Color.YELLOW and not pa_abaixada: 
